@@ -11,6 +11,6 @@ wheels/
 .agent
 
 # Project specific
-results/
-*.png
+# results/
+# *.png
 .DS_Store

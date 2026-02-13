@@ -32,20 +32,23 @@ DEFAULT_CONFIG = {
     "eval_interval": 100,
 }
 
-def get_data():
+def get_data(config=None):
+    if config is None:
+        config = DEFAULT_CONFIG
+        
     print("Loading WikiText-2...")
     dataset = load_dataset("wikitext", "wikitext-2-raw-v1")
     tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
     tokenizer.pad_token = tokenizer.eos_token
     
     def tokenize_function(examples):
-        return tokenizer(examples["text"], truncation=True, max_length=CONFIG["max_len"], padding="max_length")
+        return tokenizer(examples["text"], truncation=True, max_length=config["max_len"], padding="max_length")
 
     tokenized_datasets = dataset.map(tokenize_function, batched=True, remove_columns=["text"])
     tokenized_datasets.set_format("torch")
     
-    train_loader = DataLoader(tokenized_datasets["train"], batch_size=CONFIG["batch_size"], shuffle=True)
-    val_loader = DataLoader(tokenized_datasets["validation"], batch_size=CONFIG["batch_size"], shuffle=False)
+    train_loader = DataLoader(tokenized_datasets["train"], batch_size=config["batch_size"], shuffle=True)
+    val_loader = DataLoader(tokenized_datasets["validation"], batch_size=config["batch_size"], shuffle=False)
     
     return train_loader, val_loader
 
@@ -67,7 +70,7 @@ def evaluate(model, val_loader, device):
 def train_model(config_name, norm_type, use_gated_norm):
     print(f"Starting training for {config_name}: norm_type={norm_type}, gated={use_gated_norm}")
     
-    train_loader, val_loader = get_data()
+    train_loader, val_loader = get_data(CONFIG)
     
     model = MiniGPT(
         vocab_size=CONFIG["vocab_size"],
