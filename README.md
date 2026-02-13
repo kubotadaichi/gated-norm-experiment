@@ -22,10 +22,10 @@ We evaluated these methods on a **MiniGPT** model (Decoder-only Transformer, ~13
 Our analysis confirmed the paper's hypothesis regarding "Outlier-Driven Rescaling":
 
 -   **Baseline**: RMSNorm weights show sharp dips near zero, indicating they are actively suppressing massive residual sinks.
-    ![Baseline Weights](weights_baseline_rms.png)
+    ![Baseline Weights](results/weights_baseline_rms.png)
 
 -   **PreAffine**: The learnable $\lambda$ vector shows large spikes, indicating it successfully absorbs the sinks, allowing subsequent RMSNorm weights to be more uniform.
-    ![PreAffine Lambda](weights_preaffine_lambda.png)
+    ![PreAffine Lambda](results/weights_preaffine_lambda.png)
 
 ## Usage
 

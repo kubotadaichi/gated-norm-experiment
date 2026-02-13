@@ -22,10 +22,10 @@
 論文が提唱する「Outlier-Driven Rescaling（外れ値駆動のリスケーリング）」仮説を裏付ける結果が得られました。
 
 -   **Baseline**: RMSNormの重みが極端に0に近づく次元が見られ、巨大なResidual Sinkを抑制していることが示唆されます。
-    ![Baseline Weights](weights_baseline_rms.png)
+    ![Baseline Weights](results/weights_baseline_rms.png)
 
 -   **PreAffine**: 学習可能な $\lambda$ ベクトルに巨大なスパイク（外れ値）が見られ、これがSinkを吸収する役割を果たしています。
-    ![PreAffine Lambda](weights_preaffine_lambda.png)
+    ![PreAffine Lambda](results/weights_preaffine_lambda.png)
 
 ## 使用方法
 
