@@ -18,6 +18,10 @@ We evaluated these methods on a **MiniGPT** model (Decoder-only Transformer, ~13
 | **Baseline** (RMSNorm) | 0.0472 | Strong baseline. |
 | **GatedNorm** | 0.0496 | Comparable, slightly higher loss. |
 
+### Loss Curve
+The following plot shows the training and validation loss curves for all configurations:
+![Experiment Results](results/experiment_results.png)
+
 ### Weight Analysis
 Our analysis confirmed the paper's hypothesis regarding "Outlier-Driven Rescaling":
 

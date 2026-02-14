@@ -18,6 +18,10 @@
 | **Baseline** (RMSNorm) | 0.0472 | 強力なベースライン。 |
 | **GatedNorm** | 0.0496 | 性能は同等だが、わずかに損失が高い。 |
 
+### 学習曲線 (Loss Curve)
+全設定における学習および検証損失の推移を以下のグラフに示します：
+![Experiment Results](results/experiment_results.png)
+
 ### 重み分析 (Weight Analysis)
 論文が提唱する「Outlier-Driven Rescaling（外れ値駆動のリスケーリング）」仮説を裏付ける結果が得られました。
 
