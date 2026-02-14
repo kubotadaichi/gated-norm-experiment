@@ -14,9 +14,9 @@
 
 | 設定 | Val Loss | 備考 |
 | :--- | :--- | :--- |
-| **Baseline** (RMSNorm) | **1.27** | 今回の設定では最も高性能。 |
-| **PreAffine** | **1.29** | ベースラインと同等の性能を確認。 |
-| **GatedNorm** | 2.29 | 性能低下（より多くのチューニングや計算リソースが必要）。 |
+| **PreAffine** | **0.0465** | 最高性能（ベースラインをわずかに上回る）。 |
+| **Baseline** (RMSNorm) | 0.0472 | 強力なベースライン。 |
+| **GatedNorm** | 0.0496 | 性能は同等だが、わずかに損失が高い。 |
 
 ### 重み分析 (Weight Analysis)
 論文が提唱する「Outlier-Driven Rescaling（外れ値駆動のリスケーリング）」仮説を裏付ける結果が得られました。
@@ -26,6 +26,9 @@
 
 -   **PreAffine**: 学習可能な $\lambda$ ベクトルに巨大なスパイク（外れ値）が見られ、これがSinkを吸収する役割を果たしています。
     ![PreAffine Lambda](results/weights_preaffine_lambda.png)
+
+-   **GatedNorm**: Gating機構により、Residual Stream（残差ストリーム）を明示的に制御しています。効果的ではありますが、PreAffineと比較してわずかに損失が高く、この規模ではより単純なPreAffineのスケーリングで十分、あるいは最適化が容易である可能性が示唆されます。
+    ![GatedNorm Weights](results/weights_gatednorm_rms.png)
 
 ## 使用方法
 
