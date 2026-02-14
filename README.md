@@ -27,6 +27,9 @@ Our analysis confirmed the paper's hypothesis regarding "Outlier-Driven Rescalin
 -   **PreAffine**: The learnable $\lambda$ vector shows large spikes, indicating it successfully absorbs the sinks, allowing subsequent RMSNorm weights to be more uniform.
     ![PreAffine Lambda](results/weights_preaffine_lambda.png)
 
+-   **GatedNorm**: The gating mechanism provides explicit control over the residual stream. While effective, our results show slightly higher loss compared to PreAffine, suggesting that the simpler PreAffine scaling might be sufficient or easier to optimize for this scale.
+    ![GatedNorm Weights](results/weights_gatednorm_rms.png)
+
 ## Usage
 
 ### Requirements
