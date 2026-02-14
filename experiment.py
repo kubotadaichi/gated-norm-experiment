@@ -14,6 +14,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 from huggingface_hub import HfApi
+from dotenv import load_dotenv
+
+load_dotenv()
 
 import argparse
 
@@ -125,36 +128,36 @@ def train_model(config_name, norm_type, use_gated_norm):
                 })
                 model.train()
                 print(f"Step {step}: Val Loss = {val_loss:.4f}")
-                
-            if step >= 500:
-                break
-        if step >= 500:
-            break
-            
+        
+        # Save Model at end of epoch
+        save_path = os.path.join("results", f"model_{config_name.lower()}.pt")
+        torch.save(model.state_dict(), save_path)
+        print(f"Model saved to {save_path} (Epoch {epoch+1})")
+        
+        # Upload to HF Hub if requested (at end of each epoch)
+        if CONFIG.get("push_to_hub") and CONFIG.get("hf_repo_id"):
+            token = os.getenv("HF_TOKEN") or os.getenv("HUGGING_FACE_HUB_TOKEN")
+            if not token:
+                print("Warning: HF_TOKEN not found in environment variables. Skipping upload.")
+            else:
+                print(f"Uploading {config_name} model to Hugging Face Hub: {CONFIG['hf_repo_id']}")
+                api = HfApi(token=token)
+                try:
+                    api.upload_file(
+                        path_or_fileobj=save_path,
+                        path_in_repo=f"model_{config_name.lower()}.pt",
+                        repo_id=CONFIG["hf_repo_id"],
+                        repo_type="model"
+                    )
+                    print("Upload successful.")
+                except Exception as e:
+                    print(f"Upload failed: {e}")
+
     print(f"Finished {config_name}")
     
     # Save Model
-    save_path = os.path.join("results", f"model_{config_name.lower()}.pt")
-    torch.save(model.state_dict(), save_path)
-    print(f"Model saved to {save_path}")
-    
-    # Upload to HF Hub if requested
-    if CONFIG.get("push_to_hub") and CONFIG.get("hf_repo_id"):
-        print(f"Uploading {config_name} model to Hugging Face Hub: {CONFIG['hf_repo_id']}")
-        api = HfApi()
-        try:
-            api.upload_file(
-                path_or_fileobj=save_path,
-                path_in_repo=f"model_{config_name.lower()}.pt",
-                repo_id=CONFIG["hf_repo_id"],
-                repo_type="model"
-            )
-            print("Upload successful.")
-        except Exception as e:
-            print(f"Upload failed: {e}")
-
     return logs
-
+    
 def analyze_weights(config_name):
     print(f"Analyzing weights for {config_name}...")
     model_path = os.path.join("results", f"model_{config_name.lower()}.pt")
