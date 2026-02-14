@@ -14,9 +14,9 @@ We evaluated these methods on a **MiniGPT** model (Decoder-only Transformer, ~13
 
 | Configuration | Val Loss | Note |
 | :--- | :--- | :--- |
-| **Baseline** (RMSNorm) | **1.27** | Best performance in this setup. |
-| **PreAffine** | **1.29** | Comparable to baseline. |
-| **GatedNorm** | 2.29 | Underperformed (requires more tuning/compute). |
+| **PreAffine** | **0.0465** | Best performance (Slightly improved over baseline). |
+| **Baseline** (RMSNorm) | 0.0472 | Strong baseline. |
+| **GatedNorm** | 0.0496 | Comparable, slightly higher loss. |
 
 ### Weight Analysis
 Our analysis confirmed the paper's hypothesis regarding "Outlier-Driven Rescaling":
